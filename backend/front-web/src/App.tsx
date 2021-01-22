@@ -1,11 +1,12 @@
 import React from 'react';
 import './core/assets/styles/custom.scss';
 import './App.scss';
-import Navbar from './core/components/Navbar/index';
+import Router from './Router';
+
 
 const App = () => {
   return (
-   <Navbar/>
+   <Router/>
   );
 }
 
