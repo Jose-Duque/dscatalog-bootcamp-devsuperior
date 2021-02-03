@@ -5,6 +5,8 @@ import { ReactComponent as SetaImage} from '../../../../core/assets/images/Seta.
 import ProductPrice from '../../../../core/components/ProductPrice';
 import { Product } from '../../../../core/types/Prooduct';
 import { makeRequest } from '../../../../core/utils/request';
+import ProductDescription from '../Loaders/productDescription';
+import ProductInfoLoader from '../Loaders/productInfoLoader';
 import './styles.scss';
 
 type ParamsType = {
@@ -14,10 +16,15 @@ type ParamsType = {
 const ProductDetails = () => {
   const {productId} = useParams<ParamsType>();
   const [product, setProduct] = useState<Product>();
+  const [isLoader, setIsLoader] = useState(false);
 
   useEffect(() => {
+    setIsLoader(true);
     makeRequest({url: `/products/${productId}`})
-    .then(response => setProduct(response.data));
+    .then(response => setProduct(response.data))
+    .finally(() =>{
+      setIsLoader(false);
+    })
   }, [productId]);
 
   return (
@@ -29,19 +36,27 @@ const ProductDetails = () => {
       </Link>
       <div className="row">
         <div className="col-6">
-          <div className="product-details-card text-center">
-            <img src={product?.imgUrl} alt={product?.name} className="product-details-image"/>
-          </div>
-          <h1 className="product-details-name">
-            {product?.name}
-          </h1>
-          {product?.price && <ProductPrice price={product?.price}/>}
+          {isLoader ? <ProductInfoLoader/> : (
+             <>
+              <div className="product-details-card text-center">
+                <img src={product?.imgUrl} alt={product?.name} className="product-details-image"/>
+              </div>
+              <h1 className="product-details-name">
+                {product?.name}
+              </h1>
+              {product?.price && <ProductPrice price={product?.price}/>}
+           </>
+          )}
+         
         </div>
         <div className="col-6 product-details-card">
           <h1 className="product-decription-title">Decrição do Produto</h1>
-          <p className="product-decription-text">
-           {product?.description}
-          </p>
+          {isLoader ? <ProductDescription/> : (
+               <p className="product-decription-text">
+               {product?.description}
+              </p>
+          )}
+       
         </div>
       </div>
       </div>     
