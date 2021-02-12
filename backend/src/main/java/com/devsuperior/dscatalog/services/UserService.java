@@ -58,6 +58,7 @@ public class UserService {
 		return new UserDTO(entity);
 	}
 	
+	@Transactional
 	public UserDTO update(Long id, UserDTO dto ) {
 		try {
 			User entity = userRepository.getOne(id);
