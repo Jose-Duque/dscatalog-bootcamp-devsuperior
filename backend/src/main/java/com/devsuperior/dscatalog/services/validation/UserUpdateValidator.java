@@ -11,7 +11,6 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerMapping;
 
-import com.devsuperior.dscatalog.dto.UserInsertDTO;
 import com.devsuperior.dscatalog.dto.UserUpdateDTO;
 import com.devsuperior.dscatalog.entities.User;
 import com.devsuperior.dscatalog.repositories.UserRepository;
@@ -42,7 +41,7 @@ public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid,
 		// Coloque aqui seus testes de validação, acrescentando objetos FieldMessage à lista
 		
 		User user = repository.findByEmail(dto.getEmail());
-		if(user != null && userId != user.getId()) {
+		if(user != null && user.getId() != userId) {
 			list.add(new FieldMessage("email", "Email já existe"));
 		}
 		

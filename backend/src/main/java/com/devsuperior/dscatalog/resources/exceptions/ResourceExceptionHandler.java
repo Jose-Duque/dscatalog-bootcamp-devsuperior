@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -57,5 +58,22 @@ public class ResourceExceptionHandler {
 		
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<ValidationError> validation(DataIntegrityViolationException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+		ValidationError err = new ValidationError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(status.value());
+		err.setError("Validation exception");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		err.addError("email", "Email já existe");
+		
+		return ResponseEntity.status(status).body(err);
+	}
 }
 //Essa Class intercepta o erro.
+		
+		
+		
