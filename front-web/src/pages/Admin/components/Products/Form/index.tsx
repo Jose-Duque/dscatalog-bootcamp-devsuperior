@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeRequest } from '../../../../../core/utils/request';
+import { makePrivateRequest } from '../../../../../core/utils/request';
 import BaseForm from '../../BaseForm'
 
 type FormState = {
@@ -33,7 +33,7 @@ const Form = () => {
       imgUrl: 'https://ibcdn.canaltech.com.br/Pg_65nZzPDSOQ4ZhbJ2ZSm63bJo=/fit-in/400x400/filters:fill(transparent):watermark(wm/prd.png,-32p,center,1,none,15)/i413842.png',
       categories: [{id: formData.category}]
     }
-    makeRequest({url: '/products', method: 'POST', data: payLoad})
+    makePrivateRequest({url: '/products', method: 'POST', data: payLoad})
     console.log(payLoad)
   }
 
