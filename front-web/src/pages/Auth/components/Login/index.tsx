@@ -1,4 +1,4 @@
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import ButtonIcon from '../../../../core/components/ButtonIcon';
 import AuthCard from '../Card';
@@ -11,17 +11,25 @@ type FormData = {
   username: string;
   password: string;
 }
+
+type LocationState = {
+  from: string;
+}
+
 const Login = () => {
   const { register, handleSubmit, errors } = useForm<FormData>(); // initialize the hook
   const [hasError, sethasError] = useState(false);
   const history = useHistory();
+  let location = useLocation<LocationState>();
+
+  const { from } = location.state || { from: { pathname: "/" } };
 
   const onSubmit = (data: FormData) => {
     makeLogin(data)
     .then(response => {
       sethasError(false);
       saveSessionData(response.data);
-      history.push('/admin');
+      history.replace(from);
     })
     .catch(e => sethasError(true))
   }
