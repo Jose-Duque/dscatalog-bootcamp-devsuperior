@@ -14,24 +14,24 @@
 
 .main-menu {
   display: flex;
-  font-size: 18px;
   justify-content: center;
 
   li:nth-child(2) {
     margin-right: 85px;
     margin-left: 85px;
   }
+}
 
-  a {
-    font-style: normal;
-    color: rgba(255, 255, 255, 0.5);
+.nav-link {
+  font-style: normal;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.5);
 
-    &.active {
-      font-weight: bold;
-      color: #fff;
-    }
-    &:hover {
-      color: #fff;
-    }
+  &.active {
+    font-weight: bold;
+    color: #fff;
+  }
+  &:hover {
+    color: #fff;
   }
 }
