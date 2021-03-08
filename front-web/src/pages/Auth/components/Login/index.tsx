@@ -7,7 +7,7 @@ import { makeLogin } from '../../../../core/utils/request';
 import { useState } from 'react';
 import { saveSessionData } from '../../../../core/utils/auth';
 
-type FormData = {
+type FormState = {
   username: string;
   password: string;
 }
@@ -17,14 +17,14 @@ type LocationState = {
 }
 
 const Login = () => {
-  const { register, handleSubmit, errors } = useForm<FormData>(); // initialize the hook
+  const { register, handleSubmit, errors } = useForm<FormState>(); // initialize the hook
   const [hasError, sethasError] = useState(false);
   const history = useHistory();
   let location = useLocation<LocationState>();
 
   const { from } = location.state || { from: { pathname: "/" } };
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: FormState) => {
     makeLogin(data)
     .then(response => {
       sethasError(false);
