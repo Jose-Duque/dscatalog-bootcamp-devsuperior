@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import ProductPrice from '../../../../../core/components/ProductPrice';
 import { Product } from '../../../../../core/types/Prooduct';
 import  './styles.scss';
@@ -29,12 +30,12 @@ const Card = ({product}: Props) => {
           </div>
         </div>
         <div className="col-3 pt-3 pr-5">
-          <button 
+          <Link to={`/admin/products/${product.id}`} 
             type="button"
             className="btn btn-outline-secondary btn-block border-radius-10 mb-3 btn-edit"
           >
             EDITAR
-          </button>
+          </Link>
           <button 
             type="button"
             className="btn btn-outline-danger btn-block border-radius-10 "

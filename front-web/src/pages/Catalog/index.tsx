@@ -18,7 +18,9 @@ const Catalog = () => {
   useEffect(() => {
    const params = {
      page: activePage,
-     linesPerPage: 12
+     linesPerPage: 12,
+     direction: 'DESC',
+     orderBy: 'id'
    }
    // inicia loader
    setIsLoader(true);
