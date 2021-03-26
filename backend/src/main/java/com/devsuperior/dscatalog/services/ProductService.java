@@ -36,8 +36,9 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPaged(Long categoryId, String name, PageRequest pageRequest){
 		List<Category> categories =  (categoryId == 0) ? null : Arrays.asList(categoryrepository.getOne(categoryId));
-		Page<Product> list = repository.find(categories, name.trim(), pageRequest);
-		return list.map(x -> new ProductDTO(x));
+		Page<Product> page = repository.find(categories, name.trim(), pageRequest);
+		repository.find(page.toList());
+		return page.map(x -> new ProductDTO(x, x.getCategories()));
 		
 		/* Forma mais verbosa
 		List<ProductDTO> listDto = new ArrayList<>();
@@ -71,6 +72,10 @@ public class ProductService {
 		try {
 		Product entity = repository.getOne(id); //-quando for atualizar os dados é getone();
 		copyDtoToEntity(dto, entity);
+		if(entity.getCategories().size() == 0) {
+			Category cat = categoryrepository.getOne(1L);
+			entity.getCategories().add(cat);
+		}
 		entity = repository.save(entity);
 		return new ProductDTO(entity);
 		}
