@@ -5,6 +5,7 @@ import Pagination from '../../../../../core/components/Pagination';
 import { ProductsResponse } from '../../../../../core/types/Prooduct';
 import { makePrivateRequest, makeRequest } from '../../../../../core/utils/request';
 import Card from '../Card';
+import CardLoader from '../Loaders/ProductCardLoader';
 
 const List = () =>{
    // Quando o componente iniciar, buscar a lista de produtos
@@ -59,9 +60,11 @@ const List = () =>{
         ADICIONAR
       </button>
       <div className="admin-list-container">
-        {productsResponse?.content.map(products => (
-          <Card product={products} key={products.id} onRemove={onRemove} />
-        ))}       
+        {isLoader ? <CardLoader/> : (
+          productsResponse?.content.map(products => (
+            <Card product={products} key={products.id} onRemove={onRemove} />
+          ))
+        )}    
       </div>
       {productsResponse && (
       <Pagination 
