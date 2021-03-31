@@ -1,0 +1,40 @@
+.upload-button-container {
+  label {
+    background: #9E9E9E;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 19px;
+    text-align: center;
+    letter-spacing: -0.015em;
+    padding: 10px 30px;
+    cursor: pointer;
+  }
+}
+
+.upload-text {
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: -0.015em;
+  color: #407BFF;
+}
+
+.upload-placeholder {
+  .upload-progress-container {
+    position: absolute;
+    bottom: 10px;
+    left: 27px;
+    height: 10px;
+    width: 175px;
+    background: #E1E1E1;
+    border-radius: 10px;
+  }
+
+  .upload-progress {
+    background-color: #407BFF;
+    border-radius: 10px;
+    height: 10px;
+    width: 50%;
+  }
+}
