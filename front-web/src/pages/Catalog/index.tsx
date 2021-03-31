@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import ProductCard from './components/ProductCard';
 import { makeRequest } from '../../core/utils/request';
 import './styles.scss';
-import { ProductsResponse } from '../../core/types/Prooduct';
+import { Category, ProductsResponse } from '../../core/types/Prooduct';
 import ProductCardLoader from './components/Loaders';
 import Pagination from '../../core/components/Pagination';
-import ProductFilters, { FilterForm } from '../../core/components/ProductFilters';
+import ProductFilters from '../../core/components/ProductFilters';
 
 const Catalog = () => {
   // Quando o componente iniciar, buscar a lista de produtos
@@ -15,15 +15,17 @@ const Catalog = () => {
   const [productsResponse, setproductsResponse] = useState<ProductsResponse>();
   const [isLoader, setIsLoader] = useState(false);
   const [activePage, setActivePage] = useState(0);
+  const [name, setName] = useState('');
+  const [category, setCategory] = useState<Category>();
 
-  const getProduct = useCallback((filter?: FilterForm) => {
+  const getProduct = useCallback(() => {
     const params = {
       page: activePage,
       linesPerPage: 12,
       direction: 'DESC',
       orderBy: 'id',
-      name: filter?.name,
-      categoryId: filter?.categoryId
+      name: name,
+      categoryId: category?.id
     }
     // inicia loader
     setIsLoader(true);
@@ -33,11 +35,28 @@ const Catalog = () => {
          // finalizar loader
          setIsLoader(false)
        })
-  }, [activePage])
+  }, [activePage, name, category])
 
   useEffect(() => {
    getProduct();
   }, [getProduct]);
+
+  
+  const handleChangeName = (name: string) => {
+    setActivePage(0);
+    setName(name);
+  }
+
+  const handleChangeCategory = (category: Category) => {
+    setActivePage(0);
+    setCategory(category);
+  }
+
+  const clearFilter = () => {
+    setActivePage(0);
+    setCategory(undefined);
+    setName('');
+  }
 
   return (
     <div className="catalog-container">
@@ -45,7 +64,13 @@ const Catalog = () => {
         <h1 className="catalog-title">
           Catálogo de produdos
         </h1>
-        <ProductFilters onSearch={filter => getProduct(filter)} />
+        <ProductFilters 
+          name={name} 
+          category={category}
+          handleChangeCategory={handleChangeCategory}
+          handleChangeName={handleChangeName}
+          clearFilter={clearFilter}
+        />
       </div>
       <div className="catalog-products">
         {isLoader ? <ProductCardLoader/> : (
